@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>검색 결과</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>아고다 CID 변환기 (BY. 아슨트라)</h1>
+        
+        <!-- 검색 입력 폼 -->
+        <form action="{{ url_for('search') }}" method="POST">
+            <input type="text" name="url" placeholder="다시 검색할 URL을 입력하세요">
+            <button type="submit">검색</button>
+        </form>
+
+        <!-- 초기화면으로 돌아가는 버튼 -->
+        <button onclick="location.href='{{ url_for('index') }}'" class="button back-button">초기화면으로 돌아가기</button>
+
+        <!-- 호텔 이름 출력 -->
+        <div class="hotel-name">
+            <h2>{{ hotel_name }} 의 <br> 다양한 제휴 cid 가격페이지를 만나보세요!</h2>
+        </div>
+
+        <div class="tables-container">
+            <!-- 첫 번째 표: 변경된 URL 목록 -->
+            <div class="table-wrapper">
+                <h2>변경된 URL 목록</h2>
+                <table>
+                    <tr>
+                        <th>{{ table_headers[0] }}</th>
+                        <th>{{ table_headers[1] }}</th>
+                    </tr>
+                    {% for row in table_rows[1:] %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>
+                            <a href="{{ row[1] }}" target="_blank" class="button">열기</a>
+                            <button onclick="copyToClipboard('{{ row[1] }}')" class="button">복사</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <!-- 두 번째 표: 추가 정보 -->
+            <div class="table-wrapper">
+                <h2>제휴 링크 바로가기</h2>
+                <table>
+                    <tr>
+                        <th>구분</th>
+                        <th>주소</th>
+                    </tr>
+                    {% for row in sheet1_rows[1:] %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td><a href="{{ row[1] }}" target="_blank" class="button">열기</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert("주소가 클립보드에 복사되었습니다.");
+            });
+        }
+    </script>
+</body>
+</html>
