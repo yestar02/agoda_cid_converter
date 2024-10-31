@@ -67,7 +67,10 @@ def search():
     # URL 수정하여 새 URL 목록 생성
     modified_urls = []
     for replacement in replacements:
-        modified_url = re.sub(r'(cid=)(-1|\d{7})', f'\\1{replacement}', url)
+        if "cid=-1" in url:
+            modified_url = url.replace("cid=-1", f"cid={replacement}")
+        else:
+            modified_url = re.sub(r'(?<=cid=)\d{7}', str(replacement), url)
         modified_urls.append(modified_url)
 
     table_rows = list(zip(table_rows_left, modified_urls))
