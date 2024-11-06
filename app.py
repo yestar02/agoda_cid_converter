@@ -60,9 +60,9 @@ def search():
 
     # '처리용' 시트 데이터 불러오기 및 나머지 코드 유지
     process_data = pd.read_excel(excel_path, sheet_name='처리용', header=None)
-    replacements = process_data.iloc[4:24, 1].tolist()
+    replacements = process_data.iloc[4:27, 1].tolist()
     table_headers = process_data.iloc[3, 0:2].tolist()
-    table_rows_left = process_data.iloc[4:24, 0].tolist()
+    table_rows_left = process_data.iloc[4:27, 0].tolist()
 
     # URL 수정하여 새 URL 목록 생성
     modified_urls = []
